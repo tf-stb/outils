@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de SSCC Dynamique</title>
+    <link rel="shortcut icon" href="../assets/icon_stef.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Bootstrap Icons -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body,html{
+            height: 100%;
+        }
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+           
+    position: relative;
+        }
+        #barcodeImage {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        .container{
+            max-width: 768px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon-logo{
+            font-size: 48px;
+        }
+
+    </style>
+</head>
+<body>
+   
+    <div class="container">
+     
+        <a class="my-4 fs-4 link-secondary text-decoration-none" href="../"><i class="bi bi-arrow-left-circle"></i> Liste des Outils</a>
+        <div class="text-center my-4"><i class="bi bi-upc-scan icon-logo"></i></div>
+        <h1 class="text-center my-4">Générateur de SSCC Dynamique</h1>
+        <p class="fs-5 text-muted text-center ">Générateur de SSCC Dynamique est une application permettant de générer facilement des codes SSCC uniques pour le suivi logistique.
+
+        </p>
+        <div class="bg-white rounded-3 shadow-sm p-5 mb-5">
+            <div class="card-body">
+                <form id="ssccForm">
+                
+                    <div class="mb-3">
+                        <label for="Préfixe" class="form-label">Préfixe GS1 :</label>
+                        <input type="text" id="Préfixe" class="form-control" value="34" disabled readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="entreprise" class="form-label">Référence de l'entreprise:</label>
+                        <input type="text" id="entreprise" class="form-control" value="333685504" disabled readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="uniqueRef" class="form-label">Référence unique : <a class="small" href="#" onclick="window.location.reload()">(Générer nouvelle référence)</a></label>
+                        <input type="text" id="uniqueRef" class="form-control" >
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100"> Générer SSCC</button>
+                     
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+ 
+
+
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="ssccModal" tabindex="-1" aria-labelledby="ssccModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ssccModalLabel">SSCC Généré</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Votre SSCC généré :</p>
+                    <h4 id="modalSSCC" class="text-center"></h4>
+                    <img id="barcodeImage" src="" alt="Code-barres SSCC" class="img-fluid">
+                    <button id="copyButton" class="btn btn-success w-100 mt-3">Copier le SSCC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class=" position-fixed bottom-0 end-0 mb-2 me-3 text-muted small">Copyright 2025 STEF Développé par Hassan ABBAS</div>
+   
+
+    <!-- Bootstrap JS et dépendances -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script>
+
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  return new bootstrap.Popover(popoverTriggerEl)
+})
+
+        // Données fixes
+        const prefix = "34"; // Préfixe GS1
+        const companyRef = "333685504"; // Référence de l'entreprise
+
+        // Générer une référence unique aléatoire au chargement de la page
+        function generateRandomUniqueRef() {
+            const randomNumber = Math.floor(Math.random() * 1000000); // Génère un nombre entre 0 et 999999
+            return randomNumber.toString().padStart(6, '0'); // Complète avec des zéros à gauche
+        }
+
+        // Fonction pour calculer le chiffre de contrôle
+        function calculateCheckDigit(ssccWithoutCheck) {
+            let sum = 0;
+            for (let i = 0; i < ssccWithoutCheck.length; i++) {
+                let digit = parseInt(ssccWithoutCheck[i]);
+                if (i % 2 === 0) {
+                    sum += digit * 3;
+                } else {
+                    sum += digit;
+                }
+            }
+            return (10 - (sum % 10)) % 10;
+        }
+
+        // Gestionnaire de formulaire
+        document.getElementById('ssccForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêcher le rechargement de la page
+
+            // Récupérer la référence unique
+            const uniqueRef = document.getElementById('uniqueRef').value;
+
+            // Construire le SSCC sans le chiffre de contrôle
+            const ssccWithoutCheck = prefix + companyRef + uniqueRef;
+
+            // Calculer le chiffre de contrôle
+            const checkDigit = calculateCheckDigit(ssccWithoutCheck);
+
+            // Construire le SSCC final
+            const sscc = ssccWithoutCheck + checkDigit;
+
+            // Afficher le SSCC dans le modal
+            document.getElementById('modalSSCC').textContent = sscc;
+
+            // Générer le code-barres avec l'API TEC-IT
+            const barcodeUrl = `https://barcode.tec-it.com/barcode.ashx?code=&translate-esc=true&data=00${sscc}`;
+            document.getElementById('barcodeImage').src = barcodeUrl;
+
+            // Afficher le modal
+            const ssccModal = new bootstrap.Modal(document.getElementById('ssccModal'));
+            ssccModal.show();
+        });
+
+        // Bouton de copie
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const sscc = document.getElementById('modalSSCC').textContent;
+            navigator.clipboard.writeText(sscc).then(() => {
+                document.getElementById('copyButton').innerHTML='<i class="bi bi-clipboard-check"></i> Copié ! ';
+                setTimeout(function(){
+                 document.getElementById('copyButton').innerHTML="Copier le SSCC"
+               },600)
+            });
+        });
+
+        // Initialiser la référence unique aléatoire au chargement de la page
+        document.getElementById('uniqueRef').value = generateRandomUniqueRef();
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Outils</title>
+    <link rel="shortcut icon" href="assets/icon_stef.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container{
+            max-width: 1000px;
+        }
+        .tool-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .tool-card h5{
+            color: black;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+        .tool-icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        .icon-logo{
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container py-5">
+
+        <div class="text-center my-4"><i class="bi bi-collection icon-logo"></i></div>
+
+        <h1 class="text-center mb-4">Liste des Outils</h1>
+        <p class="fs-5 text-muted text-center ">Liste des Outils est une collection d’applications conçues pour aider les professionnels à optimiser leurs tâches quotidiennes, améliorer leur productivité et gagner en efficacité grâce à des outils performants et intuitifs.</p>
+        <div class="row g-4">
+            <!-- Générateur de SSCC Dynamique -->
+            <div class="col-md-4"> 
+                <a class="text-decoration-none" href="./sscc-generator/">
+                <div class="tool-card">
+                    <i class="bi bi-upc-scan tool-icon"  style="color: #ffc107;"></i>
+                    <h5>Générateur de SSCC</h5>
+                    <p class="text-danger small">Nouvelle</p>
+                </div>
+            </a>
+            </div>
+            <!-- Fusionner des fichiers PDF -->
+            <div class="col-md-4">
+                <a class="text-decoration-none" href="./merge-pdf/">
+                <div class="tool-card">
+                    <i class="bi bi-file-earmark-pdf-fill tool-icon" style="color: #dc3545;"></i>
+                    <h5>Fusionner des fichiers PDF</h5>
+                    
+                </div>
+            </a>
+            </div>
+            <!-- Scinder des fichiers PDF -->
+            <div class="col-md-4">
+                <a class="text-decoration-none" href="./split-pdf/">
+                <div class="tool-card">
+                    <i class="bi bi-file-earmark-break-fill tool-icon" style="color: #dc3545;"></i>
+                    <h5>Diviser des fichiers PDF</h5>
+                </div>
+            </a>
+            </div>
+            <!-- Créateur de badge -->
+            <div class="col-md-4">
+                <a class="text-decoration-none" href="./badge-creator/">
+                <div class="tool-card">
+
+                    <i class="bi bi-person-badge-fill tool-icon" style="color: #0d6efd;"></i>
+                    <h5>Créateur de badge</h5>
+                </div>
+                </a>
+            </div>
+             <!-- Extension XDock -->
+             <div class="col-md-4">
+                <a class="text-decoration-none" href="https://tf-stb.github.io/badge/">
+                <div class="tool-card">
+
+                    <i class="bi bi-puzzle-fill tool-icon" style="color: #0a58ca;"></i>
+                    <h5>Extension XDock</h5>
+                </div>
+                </a>
+            </div>
+
+                <!-- Rapport d'activité -->
+                <div class="col-md-4">
+                    <a class="text-decoration-none" href="./activity-report/">
+                    <div class="tool-card">
+    
+                        <i class="bi bi-bar-chart-line-fill tool-icon"  style="color: #212529;"></i>
+                        <h5>Rapport d'activité</h5>
+                    </div>
+                    </a>
+                </div>
+        </div>
+    </div>
+
+
+    <div class=" position-fixed bottom-0 end-0 mb-2 me-3 text-muted small">© Copyright 2025 STEF-TFE Développé par Hassan ABBAS</div>
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

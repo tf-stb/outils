@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Créateur de badge</title>
+    <link rel="stylesheet" href="./print.css">
+    <link rel="shortcut icon" href="Icon_STEF.png" type="image/x-icon">
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to get URL parameters
+        function getParameterByName(name) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(name) || "";
+        }
+        
+        // Extract values from URL
+        const fullName = getParameterByName("fullname");
+        const email = getParameterByName("email");
+        const password = getParameterByName("password");
+        const cardUID = "AG" + Math.random().toString(16).slice(9); // UID
+        const today = new Date().toLocaleDateString("fr-FR"); // Format: DD/MM/YYYY
+        
+        // Replace placeholders
+        document.getElementById("badge_holder_name").textContent = fullName;
+        document.getElementById("barcode").src = `https://barcode.tec-it.com/barcode.ashx?code=&translate-esc=true&data=${email}`;
+        document.getElementById("qrcode").src = `https://barcode.tec-it.com/barcode.ashx?code=qrcode&eclevel=M&imagetype=Png&data=${password}`;
+        document.getElementById("card-holder").textContent = fullName;
+        document.getElementById("card-date").textContent = `Date de création ${today}`;
+        document.getElementById("card-uid").textContent = cardUID;
+
+        let img_h = "";
+        if (email.length > 17) img_h = "hsmall";
+        document.getElementById("barcode").classList.add(img_h)
+      });
+
+        // set time ou to fix images load by broswer
+        setTimeout(function () {
+        // open print dilog
+        window.print();
+        }, 1000);
+    </script>
+  </head>
+  <body>
+    <div id="a4">
+      <div id="cards" class="cards">
+        <div class='card'>
+          <span class="box up"></span>
+          <div class='badge-barcode'>
+            <h1 id="badge_holder_name" class="badge_holder_name"></h1>
+            <img id="barcode" class="barcode" src="" alt="Barcode">  
+          </div>
+          <div class='badge-icon'><img src="../assets/logo.png"></div>
+          <span class="box down"></span>
+        </div>
+
+        <div id="card" class='card'>
+          <div class='card-icon'><img src="../assets/icon_stef.png"> </div>
+          <div class='card-qrcode'><img id="qrcode" src="" fetchpriority="high" alt="QR Code"> <p class="scan">Scannez ici</p></div>
+          <div class="card-title"><p>Code d'identification</p></div>
+          <div class="border-left"></div>
+          <div class="card-holder">
+            <p id="card-holder"></p>
+            <p id="card-date"></p>
+          </div>
+          <div class="card-id"><p id="card-uid"></p></div>
+          <div class="border-right"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
