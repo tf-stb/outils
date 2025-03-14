@@ -23,7 +23,7 @@
         // Replace placeholders
         document.getElementById("badge_holder_name").textContent = fullName;
         document.getElementById("barcode").src = `https://barcode.tec-it.com/barcode.ashx?code=&translate-esc=true&data=${email}`;
-        document.getElementById("qrcode").src = `https://barcode.tec-it.com/barcode.ashx?code=qrcode&eclevel=M&imagetype=Png&data=${password}`;
+        document.getElementById("qrcode").src = `https://barcode.tec-it.com/barcode.ashx?code=qrcode&eclevel=M&imagetype=Png&data=${encodeURIComponent(password)}`;
         document.getElementById("card-holder").textContent = fullName;
         document.getElementById("card-date").textContent = `Date de création ${today}`;
         document.getElementById("card-uid").textContent = cardUID;
